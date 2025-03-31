@@ -41,7 +41,7 @@ export class Tile {
             if (!this.gameEngine.keys["m1"] && this.clicked) {
                 // clicked and released in square
                 if (this.hitbox.isClickedOn(this.gameEngine.mouse.x, this.gameEngine.mouse.y)) {
-                    this.selected = true;
+                    this.selected = !this.selected;
                     this.clicked = false;
                 } 
             } 
@@ -53,6 +53,9 @@ export class Tile {
     }
 
     draw(ctx) {
+        ctx.fillStyle = "white"
+        ctx.fillText(this.value, this.x, this.y);
+
         if (this.clicked) {
             ctx.fillStyle = "red";
         } 
@@ -62,5 +65,7 @@ export class Tile {
             ctx.fillStyle = "black"
         }
         ctx.fillRect(this.x, this.y, this.length, this.length);
+
+
     }
 }

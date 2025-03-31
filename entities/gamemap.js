@@ -22,11 +22,10 @@ export class GameMap {
     }
 
     update() {
-        console.log(this.selectedTile1 + " " + this.selectedTile2);
         for (let row = 0; row < this.dimensions; row++) {
             for (let col = 0; col < this.dimensions; col++) {
-                if (this.map[row][col].selected) {
-                    let currentTile = this.map[row][col];
+                let currentTile = this.map[row][col];
+                if (currentTile.selected) {
                     if (!this.selectedTile1) {
                         this.selectedTile1 = currentTile;
                     } else if (this.selectedTile1 && this.selectedTile1 != currentTile) {
@@ -34,10 +33,12 @@ export class GameMap {
 
                         this.selectedTile1.selected = false;
                         this.selectedTile2.selected = false;
-                        
+
                         this.selectedTile1 = null;
-                        this.selectedTile2 = null
+                        this.selectedTile2 = null 
                     }
+                } else if (!currentTile.selected && this.selectedTile1 === currentTile) {
+                    this.selectedTile1 = null;
                 }
             }
         }

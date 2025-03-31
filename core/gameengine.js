@@ -1,6 +1,8 @@
 // This game shell was happily modified from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
-
-class GameEngine {
+import { GameMap } from "../entities/gamemap.js";
+import * as Timer from "../timer.js"
+import * as Util  from "../util.js"
+export class GameEngine {
     constructor(options) {
         // What you will use to draw
         // Documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
@@ -19,12 +21,17 @@ class GameEngine {
         this.options = options || {
             debugging: false,
         };
+
+        this.map = false;
+        this.mouseCode = "m1";
     };
 
     init(ctx) {
         this.ctx = ctx;
         this.startInput();
-        this.timer = new Timer();
+        this.timer = new Timer.Timer();
+        this.map = new GameMap();
+        this.addEntity(this.map);
     };
 
     start() {
@@ -72,6 +79,20 @@ class GameEngine {
             this.rightclick = getXandY(e);
         });
 
+        this.ctx.canvas.addEventListener("mousedown", e => {
+            if (this.options.debugging) {
+                console.log("MOUSEDOWN", getXandY(e));
+            }
+            this.keys[this.mouseCode] = true;
+        });
+
+        this.ctx.canvas.addEventListener("mouseup", e => {
+            if (this.options.debugging) {
+                console.log("MOUSEUP", getXandY(e));
+            }
+            this.keys[this.mouseCode] = false;
+        });
+
         this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
         this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
     };
@@ -86,7 +107,7 @@ class GameEngine {
 
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {
-            this.entities[i].draw(this.ctx, this);
+            this.entities[i].draw(this.ctx);
         }
     };
 

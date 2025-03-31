@@ -3,9 +3,9 @@ const params = { };
 
 /**
  * @param {Number} n
- * @returns Random Integer Between 0 and n-1
+ * @returns Random Integer Between 1 and n
  */
-const randomInt = n => Math.floor(Math.random() * n);
+export const randomInt = n => Math.floor(Math.random() * n) + 1;
 
 /**
  * @param {Number} r Red Value
@@ -13,7 +13,7 @@ const randomInt = n => Math.floor(Math.random() * n);
  * @param {Number} b Blue Value
  * @returns String that can be used as a rgb web color
  */
-const rgb = (r, g, b) => `rgba(${r}, ${g}, ${b})`;
+export const rgb = (r, g, b) => `rgba(${r}, ${g}, ${b})`;
 
 /**
  * @param {Number} r Red Value
@@ -22,7 +22,7 @@ const rgb = (r, g, b) => `rgba(${r}, ${g}, ${b})`;
  * @param {Number} a Alpha Value
  * @returns String that can be used as a rgba web color
  */
-const rgba = (r, g, b, a) => `rgba(${r}, ${g}, ${b}, ${a})`;
+export const rgba = (r, g, b, a) => `rgba(${r}, ${g}, ${b}, ${a})`;
 
 /**
  * @param {Number} h Hue

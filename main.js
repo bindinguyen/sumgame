@@ -11,6 +11,14 @@ ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
 
+	function resizeCanvas() {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+	}
+
+	window.addEventListener('resize', resizeCanvas);
+	resizeCanvas();
+
 	gameEngine.init(ctx);
 
 	gameEngine.start();

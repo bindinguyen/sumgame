@@ -1,6 +1,6 @@
 // This game shell was happily modified from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
 import { GameMap } from "../entities/gamemap.js";
-import * as Timer from "../timer.js"
+import * as Timer from "./timer.js"
 import * as Util  from "../util.js"
 export class GameEngine {
     constructor(options) {
@@ -22,7 +22,8 @@ export class GameEngine {
             debugging: false,
         };
 
-        this.map = false;
+        this.map = null;
+        this.timer = null;
         this.mouseCode = "m1";
     };
 

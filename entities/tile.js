@@ -55,6 +55,15 @@ export class Tile {
         tile.selected = false;
     }
 
+    isAdj(tile) {
+        let sameX = tile.arrX === this.arrX;
+        let sameY = tile.arrY === this.arrY;
+        let sameRow = Math.abs(this.arrX - tile.arrX) === 1;
+        let sameCol = Math.abs(this.arrY - tile.arrY) === 1;
+
+        return (sameX && sameCol) || (sameY && sameRow);
+    }
+
     draw(ctx) {
         if (this.clicked) {
             ctx.fillStyle = "red";
@@ -68,6 +77,6 @@ export class Tile {
 
         ctx.fillStyle = "red"
         ctx.font = "30px serif"
-        ctx.fillText(this.value, this.x + this.length / 2, this.y + this.length / 2);
+        ctx.fillText(this.arrX + " " + this.arrY, this.x + this.length / 2, this.y + this.length / 2);
     }
 }

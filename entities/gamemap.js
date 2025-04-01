@@ -30,17 +30,23 @@ export class GameMap {
                     if (!this.selectedTile1) {
                         this.selectedTile1 = currentTile;
                     } else if (this.selectedTile1 && this.selectedTile1 != currentTile) {
-                        this.selectedTile2 = currentTile;
+                        if (this.selectedTile1.isAdj(currentTile)) {
+                            this.selectedTile2 = currentTile;
+                        } else {
+                            currentTile.selected = false;
+                        }
                     }
+                    // tile was unselected
                 } else if (!currentTile.selected && this.selectedTile1 === currentTile) {
                     this.selectedTile1 = null;
                 }
             }
         }
 
-        console.log (this.selectedTile1)
+        
         // if theres 2 tiles selected
         if (this.selectedTile1 && this.selectedTile2) {
+            this.selectedTile2.isAdj(this.selectedTile1);
             // add tile 1 to tile 2
             this.selectedTile2.add(this.selectedTile1);
 
@@ -50,9 +56,6 @@ export class GameMap {
             }
 
             this.map[this.selectedTile1.arrX][0].value = Util.randomInt(20);
-
-
-
 
             this.selectedTile1 = null;
             this.selectedTile2 = null;

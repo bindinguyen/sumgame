@@ -6,24 +6,13 @@ export class Tile {
         this.value = Util.randomInt(20);
         this.clicked = false;
         this.selected = false;
-
-        this.totalWidth = 1024;
-        this.totalHeight = 768;
+        this.rotten = false;
 
         this.length = 80;
         this.spacing = 30;
-        this.wBorder = (this.totalWidth - ((this.spacing + this.length) * 3 + this.length)) / 2;
-        this.hBorder = (this.totalHeight - ((this.spacing + this.length) * 3 + this.length)) / 2;
 
-        this.x = (this.length + this.spacing) * this.arrX + this.wBorder;
-        this.y = (this.length + this.spacing) * this.arrY + this.hBorder;
+        this.resize();
 
-        this.right = this.x + this.length;
-        this.bottom = this.y + this.length;
-
-        console.log(this.x + " " + this.right + " " + this.y + " " + this.bottom);
-
-        this.hitbox = new Hitbox(this.x, this.y, this.length, this.length);
         this.gameEngine = window.gameEngine;
     }
 
@@ -62,6 +51,19 @@ export class Tile {
         let sameCol = Math.abs(this.arrY - tile.arrY) === 1;
 
         return (sameX && sameCol) || (sameY && sameRow);
+    }
+
+    resize() {
+        this.totalWidth = window.innerWidth;
+        this.totalHeight = window.innerHeight;
+
+        this.wBorder = (this.totalWidth - ((this.spacing + this.length) * 3 + this.length)) / 2;
+        this.hBorder = (this.totalHeight - ((this.spacing + this.length) * 3 + this.length)) / 2;
+
+        this.x = (this.length + this.spacing) * this.arrX + this.wBorder;
+        this.y = (this.length + this.spacing) * this.arrY + this.hBorder;
+        
+        this.hitbox = new Hitbox(this.x, this.y, this.length, this.length);
     }
 
     draw(ctx) {

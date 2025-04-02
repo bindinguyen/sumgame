@@ -14,6 +14,10 @@ ASSET_MANAGER.downloadAll(() => {
 	function resizeCanvas() {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
+
+		if (gameEngine.map) {
+			gameEngine.map.resize();
+		}
 	}
 
 	window.addEventListener('resize', resizeCanvas);

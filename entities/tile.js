@@ -17,7 +17,7 @@ export class Tile {
     }
 
     update() {
-        if (this.gameEngine.keys) {
+        if (this.gameEngine.keys && this.value < 100) {
             if (this.gameEngine.keys["m1"]) {
                 // clicked on
                 if (this.hitbox.isClickedOn(this.gameEngine.mouse.x, this.gameEngine.mouse.y)) {
@@ -73,12 +73,17 @@ export class Tile {
         else if (this.selected) {
             ctx.fillStyle = "green";
         } else {
-            ctx.fillStyle = "black"
+            ctx.fillStyle = "black";
         }
         ctx.fillRect(this.x, this.y, this.length, this.length);
 
-        ctx.fillStyle = "red"
-        ctx.font = "30px serif"
+        if (this.rotten) {
+            ctx.fillStyle = "yellow";
+        } else {
+            ctx.fillStyle = "white";
+        }
+        
+        ctx.font = "30px serif";
         ctx.fillText(this.value, this.x + this.length / 2, this.y + this.length / 2);
     }
 }

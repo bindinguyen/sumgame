@@ -51,28 +51,34 @@ export class GameMap {
         
         // if theres 2 tiles selected
         if (this.selectedTile1 && this.selectedTile2) {
-            this.selectedTile2.isAdj(this.selectedTile1);
-            // add tile 1 to tile 2
-            this.selectedTile2.add(this.selectedTile1);
+            if (this.selectedTile1.value + this.selectedTile2.value <= 100) {
+                this.selectedTile2.isAdj(this.selectedTile1);
+                // add tile 1 to tile 2
+                this.selectedTile2.add(this.selectedTile1);
 
-            if (this.selectedTile2.value == 100) {
-                if (window.gameEngine.timer.last100 > this.maxTime) {
-                    this.selectedTile2.rotten = true;
-                    console.log("uh oh rotten");
+                if (this.selectedTile2.value == 100) {
+                    if (window.gameEngine.timer.last100 > this.maxTime) {
+                        this.selectedTile2.rotten = true;
+                        console.log("uh oh rotten");
+                    }
+
+                    window.gameEngine.timer.last100 = 0;
                 }
 
-                window.gameEngine.timer.last100 = 0;
+                // handle tiles "falling"
+                for (let i = this.selectedTile1.arrY; i > 0; i--) {
+                    this.map[this.selectedTile1.arrX][i].value = this.map[this.selectedTile1.arrX][i - 1].value
+                }
+
+                this.map[this.selectedTile1.arrX][0].value = Util.randomInt(20);
+
+                this.selectedTile1 = null;
+                this.selectedTile2 = null;
+            } else {
+                this.selectedTile2.selected = false;
+                this.selectedTile2 = null;
             }
-
-            // handle tiles "falling"
-            for (let i = this.selectedTile1.arrY; i > 0; i--) {
-                this.map[this.selectedTile1.arrX][i].value = this.map[this.selectedTile1.arrX][i - 1].value
-            }
-
-            this.map[this.selectedTile1.arrX][0].value = Util.randomInt(20);
-
-            this.selectedTile1 = null;
-            this.selectedTile2 = null;
+            
         }
     }
 

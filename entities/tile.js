@@ -67,6 +67,7 @@ export class Tile {
     }
 
     draw(ctx) {
+        // coloring for tile bkgrd
         if (this.clicked) {
             ctx.fillStyle = "red";
         } 
@@ -77,6 +78,7 @@ export class Tile {
         }
         ctx.fillRect(this.x, this.y, this.length, this.length);
 
+        // coloring for text
         if (this.rotten) {
             ctx.fillStyle = "yellow";
         } else {

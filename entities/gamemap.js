@@ -25,9 +25,6 @@ export class GameMap {
     }
 
     update() {
-        if(window.gameEngine.timer) {
-            console.log(window.gameEngine.timer.last100);
-        }
         for (let arrX = 0; arrX < this.dimensions; arrX++) {
             for (let arrY = 0; arrY < this.dimensions; arrY++) {
                 let currentTile = this.map[arrX][arrY];
@@ -35,6 +32,7 @@ export class GameMap {
                     if (!this.selectedTile1) {
                         this.selectedTile1 = currentTile;
                     } else if (this.selectedTile1 && this.selectedTile1 != currentTile) {
+                        // if an adj tile was selected
                         if (this.selectedTile1.isAdj(currentTile)) {
                             this.selectedTile2 = currentTile;
                         } else {
@@ -52,7 +50,6 @@ export class GameMap {
         // if theres 2 tiles selected
         if (this.selectedTile1 && this.selectedTile2) {
             if (this.selectedTile1.value + this.selectedTile2.value <= 100) {
-                this.selectedTile2.isAdj(this.selectedTile1);
                 // add tile 1 to tile 2
                 this.selectedTile2.add(this.selectedTile1);
 

@@ -20,8 +20,10 @@ export class GameMap {
 
         this.selectedTile1 = null;
         this.selectedTile2 = null;
-        // after 20 seconds, the next egg will be rotten
-        this.maxTime = 20;
+        // after 60 seconds, the next egg will be rotten
+        this.maxTime = 60;
+        this.score = 0;
+        this.highscore = 0;
     }
 
     update() {
@@ -51,23 +53,18 @@ export class GameMap {
         if (this.selectedTile1 && this.selectedTile2) {
             if (this.selectedTile1.value + this.selectedTile2.value <= 100) {
                 // add tile 1 to tile 2
+                this.handleScore();
                 this.selectedTile2.add(this.selectedTile1);
 
                 if (this.selectedTile2.value == 100) {
-                    if (window.gameEngine.timer.last100 > this.maxTime) {
+                    if (window.gameEngine.timer.timeRemain < 0) {
                         this.selectedTile2.rotten = true;
                         console.log("uh oh rotten");
                     }
-
-                    window.gameEngine.timer.last100 = 0;
+                    window.gameEngine.timer.timeRemain = this.maxTime;
                 }
 
-                // handle tiles "falling"
-                for (let i = this.selectedTile1.arrY; i > 0; i--) {
-                    this.map[this.selectedTile1.arrX][i].value = this.map[this.selectedTile1.arrX][i - 1].value
-                }
-
-                this.map[this.selectedTile1.arrX][0].value = Util.randomInt(20);
+                this.applyGravity();
 
                 this.selectedTile1 = null;
                 this.selectedTile2 = null;
@@ -75,8 +72,33 @@ export class GameMap {
                 this.selectedTile2.selected = false;
                 this.selectedTile2 = null;
             }
-            
         }
+    }
+
+    handleScore() {
+        this.addedScore = 0;
+
+        // if egg is rotten, addedScore = 250
+        // if egg is perfectly new, addedScore = 2500
+
+        if (this.selectedTile1.value + this.selectedTile2.value === 100) {
+            let multiplier = 1 + (window.gameEngine.timer.timeRemain * 3 / 20);
+            this.addedScore += Math.ceil(multiplier * 250);
+        } else {
+            this.addedScore += this.selectedTile1.value;
+            this.addedScore += this.selectedTile2.value;
+        }
+
+        this.score += this.addedScore;
+    }
+
+    applyGravity() {
+        // handle tiles "falling"
+                for (let i = this.selectedTile1.arrY; i > 0; i--) {
+                    this.map[this.selectedTile1.arrX][i].value = this.map[this.selectedTile1.arrX][i - 1].value
+                }
+
+                this.map[this.selectedTile1.arrX][0].value = Util.randomInt(20);
     }
 
     resize() {
@@ -88,6 +110,8 @@ export class GameMap {
     }
 
     draw(ctx) {
-
+        ctx.fillStyle = "black";
+        ctx.font = "30px serif";
+        ctx.fillText(this.score, 500, window.innerHeight / 2);
     }
 }

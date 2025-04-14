@@ -72,6 +72,7 @@ export class GameMap {
                 this.selectedTile2.selected = false;
                 this.selectedTile2 = null;
             }
+
             if (!this.checkLost()) {
                 console.log("game still go");
             }
@@ -135,14 +136,21 @@ export class GameMap {
         return true;
     }
 
-
-
     resize() {
        for (let i = 0; i < this.dimensions; i++) {
             for (let j = 0; j < this.dimensions; j++) {
                 this.map[i][j].resize();
             }
        }
+    }
+
+    startRuntime() {
+        this.startTime = performance.now();
+    }
+
+    endRuntime() {
+        let elapsedTime = performance.now() - this.startTime;
+        console.log(`function ran in ${elapsedTime} ms`);
     }
 
     draw(ctx) {

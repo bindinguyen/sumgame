@@ -6,7 +6,7 @@ export class Timer {
         this.maxStep = 0.05;
         this.lastTimestamp = 0;
 
-        this.last100 = 0;
+        this.timeRemain = 60;
     };
 
     tick() {
@@ -16,8 +16,13 @@ export class Timer {
 
         const gameDelta = Math.min(delta, this.maxStep);
         this.gameTime += gameDelta;
+        if (this.timeRemain > 0) {
+            this.timeRemain -= gameDelta;
+        }
 
-        this.last100 += gameDelta;
+        if (this.timeRemain < 0) {
+            this.timeRemain = 0;
+        }
 
         return gameDelta;
     };

@@ -72,6 +72,10 @@ export class GameMap {
                 this.selectedTile2.selected = false;
                 this.selectedTile2 = null;
             }
+            if (!this.checkLost()) {
+                console.log("game still go");
+            }
+            
         }
     }
 
@@ -100,6 +104,38 @@ export class GameMap {
 
                 this.map[this.selectedTile1.arrX][0].value = Util.randomInt(20);
     }
+
+    checkLost() {
+        // cycle through and check all adj tiles for if it can be added
+        for (let arrX = 0; arrX  < this.dimensions; arrX++) {
+            for (let arrY = 0; arrY  < this.dimensions; arrY++) {
+
+                // greatest possible value the neighboring tile can be
+                let greatestVal = 100 - this.map[arrX][arrY].value;
+
+                if (arrY > 0 && this.map[arrX][arrY - 1].value <= greatestVal) {
+                    return false;
+                } 
+
+                if (arrY < this.dimensions - 1 && this.map[arrX][arrY + 1].value <= greatestVal) {
+                    return false;
+                }
+                
+                if (arrX > 0 && this.map[arrX - 1][arrY].value <= greatestVal) {
+                    return false;
+                }
+
+                if (arrX < this.dimensions - 1 && this.map[arrX + 1][arrY].value <= greatestVal) {
+                    return false;
+                }
+            }
+        }
+
+        console.log("game lost");
+        return true;
+    }
+
+
 
     resize() {
        for (let i = 0; i < this.dimensions; i++) {

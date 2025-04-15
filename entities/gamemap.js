@@ -1,5 +1,6 @@
 import { Tile } from "./tile.js";
 import * as Util from "../util.js";
+import { timerVisual } from "./timerVisual.js";
 export class GameMap {
     constructor() {
         this.map = [];
@@ -17,6 +18,8 @@ export class GameMap {
             }
             this.map.push(currentRow);
         }
+
+        window.gameEngine.addEntity(new timerVisual());
 
         this.selectedTile1 = null;
         this.selectedTile2 = null;
@@ -142,6 +145,8 @@ export class GameMap {
                 this.map[i][j].resize();
             }
        }
+
+
     }
 
     startRuntime() {
@@ -156,6 +161,6 @@ export class GameMap {
     draw(ctx) {
         ctx.fillStyle = "black";
         ctx.font = "30px serif";
-        ctx.fillText(this.score, 500, window.innerHeight / 2);
+        ctx.fillText(this.score, window.innerWidth / 5, window.innerHeight / 2);
     }
 }

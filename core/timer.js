@@ -16,6 +16,7 @@ export class Timer {
 
         const gameDelta = Math.min(delta, this.maxStep);
         this.gameTime += gameDelta;
+
         if (this.timeRemain > 0) {
             this.timeRemain -= gameDelta;
         }
